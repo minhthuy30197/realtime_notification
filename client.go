@@ -68,9 +68,11 @@ func (c *Client) readPump() {
 				log.Printf("error: %v", err)
 			}
 			// Xoá connection 
-			delete(c.hub.clients[c.userID].list, c)
-			if len(c.hub.clients[c.userID].list) == 0 {
-				delete(c.hub.clients, c.userID)	 
+			if _, ok := c.hub.clients[c.userID]; ok {
+				delete(c.hub.clients[c.userID].list, c)
+				if len(c.hub.clients[c.userID].list) == 0 {
+					delete(c.hub.clients, c.userID)	 
+				}
 			}
 			break
 		} 
